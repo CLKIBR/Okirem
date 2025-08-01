@@ -1,0 +1,9 @@
+<div class="feedback-form" role="form">
+  <h2>Geri Bildirim</h2>
+  <form (ngSubmit)="submit()">
+    <textarea [(ngModel)]="message" name="message" rows="4" placeholder="Görüşünüzü yazın..." aria-label="Geri bildirim mesajı"></textarea>
+    <button type="submit" aria-label="Geri bildirimi gönder">Gönder</button>
+  </form>
+  <div *ngIf="error()" class="error" role="alert">{{ error() }}</div>
+  <div *ngIf="success()" class="success" role="status">{{ success() }}</div>
+</div>

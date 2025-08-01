@@ -1,0 +1,28 @@
+<div class="admin-panel-dashboard">
+  <h2>Admin Paneli</h2>
+  <div *ngIf="error()" class="error">{{ error() }}</div>
+  <table *ngIf="!!users() && users()?.length">
+    <thead>
+      <tr>
+        <th>Ad</th>
+        <th>Email</th>
+        <th>Rol</th>
+        <th>İşlem</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users()">
+        <td>{{ user.name }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.role }}</td>
+        <td>
+          <select (change)="setRole(user.id, $any($event.target).value)">
+            <option value="admin" [selected]="user.role === 'admin'">Admin</option>
+            <option value="teacher" [selected]="user.role === 'teacher'">Öğretmen</option>
+            <option value="student" [selected]="user.role === 'student'">Öğrenci</option>
+          </select>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

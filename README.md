@@ -12,12 +12,21 @@ ng serve
 
 Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
 
+
+
+
 ## Code scaffolding
+
+
 
 Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
 
+
+
 ```bash
+
 ng generate component component-name
+
 ```
 
 For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
@@ -57,3 +66,18 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+## Shared Modül
+
+Tüm modüllerde ortak hata ve loading yönetimi için `ErrorMessageComponent` ve `LoadingMessageComponent` kullanılabilir.
+
+### Kullanım Örneği
+
+```html
+<app-error-message [message]="error"></app-error-message>
+<app-loading-message [loading]="isLoading" text="Veriler yükleniyor..."></app-loading-message>
+```
+
+### Erişilebilirlik ve Responsive Tasarım
+
+Tüm ortak bileşenler erişilebilirlik (ARIA, role) ve mobil/tablet uyumluluğu için optimize edilmiştir.

@@ -1,0 +1,56 @@
+.feedback-form {
+  max-width: 400px;
+  margin: 2rem auto;
+  h2 { font-size: 1.3rem; margin-bottom: 1rem; }
+  textarea {
+    width: 100%;
+    padding: 0.7rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    resize: vertical;
+  }
+  button {
+    background: #1976d2;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 0.5rem 1.2rem;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    transition: background 0.2s;
+  }
+  button:hover, button:focus {
+    background: #1565c0;
+    outline: none;
+  }
+  .error {
+    color: #c00;
+    margin-top: 1rem;
+  }
+  .success {
+    color: #1976d2;
+    margin-top: 1rem;
+  }
+}
+@media (max-width: 600px) {
+  .feedback-form {
+    max-width: 100%;
+    margin: 1rem;
+    padding: 0.5rem;
+  }
+  .feedback-form h2 {
+    font-size: 1.05rem;
+  }
+  .feedback-form textarea {
+    font-size: 0.95rem;
+    padding: 0.5rem;
+  }
+  .feedback-form button {
+    font-size: 0.95rem;
+    padding: 0.7rem 0.5rem;
+  }
+}

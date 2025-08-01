@@ -1,0 +1,10 @@
+
+<div class="leaderboard-list-form">
+  <h2>Liderlik Tablosu</h2>
+  <div *ngIf="error()" class="error">{{ error() }}</div>
+  <ol>
+    <li *ngFor="let user of leaderboard(); let i = index">
+      {{ i + 1 }}. {{ user.name }} - {{ user.points }} puan
+    </li>
+  </ol>
+</div>

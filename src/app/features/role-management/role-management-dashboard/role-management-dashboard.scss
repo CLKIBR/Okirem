@@ -1,0 +1,6 @@
+.role-management-dashboard { max-width: 500px; margin: 2rem auto; }
+.role-management-dashboard h2 { font-size: 1.5rem; margin-bottom: 1rem; }
+.role-management-dashboard .error { color: #c00; margin-bottom: 1rem; }
+.role-management-dashboard form { display: flex; flex-direction: column; gap: 12px; }
+.role-management-dashboard input, .role-management-dashboard select { padding: 6px; border-radius: 4px; border: 1px solid #ccc; }
+.role-management-dashboard button { padding: 8px 16px; border-radius: 4px; border: none; background: #1976d2; color: #fff; cursor: pointer; }

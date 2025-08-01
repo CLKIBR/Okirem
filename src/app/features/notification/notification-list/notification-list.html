@@ -1,0 +1,11 @@
+<div class="notification-list" role="main">
+  <h2>Bildirimler</h2>
+  <div *ngIf="error()" class="error" role="alert">{{ error() }}</div>
+  <ul role="list">
+    <li *ngFor="let notification of notifications()" role="listitem">
+      <span [class.read]="notification.read">{{ notification.message }}</span>
+      <span>{{ notification.date | date:'short' }}</span>
+      <button *ngIf="!notification.read" (click)="markAsRead(notification.id)" aria-label="Bildirim okundu olarak işaretle">Okundu</button>
+    </li>
+  </ul>
+</div>

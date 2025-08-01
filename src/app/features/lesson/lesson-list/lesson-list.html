@@ -1,0 +1,16 @@
+
+<div class="lesson-list-form">
+  <h2>Dersler</h2>
+  <form #addLessonForm="ngForm" (ngSubmit)="addLesson({ title: title.value })">
+    <label for="title">Ders Adı</label>
+    <input id="title" name="title" type="text" #title required />
+    <button type="submit">Ders Ekle</button>
+  </form>
+  <div *ngIf="error()" class="error">{{ error() }}</div>
+  <div *ngIf="success()" class="success">{{ success() }}</div>
+  <ul>
+    <li *ngFor="let lesson of lessons()">
+      <a [routerLink]="['/lesson', lesson.id]">{{ lesson.title }}</a>
+    </li>
+  </ul>
+</div>

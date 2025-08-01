@@ -1,0 +1,16 @@
+
+<div class="task-list-form">
+  <h2>Görevler</h2>
+  <form #addTaskForm="ngForm" (ngSubmit)="addTask({ title: title.value })">
+    <label for="title">Görev Adı</label>
+    <input id="title" name="title" type="text" #title required />
+    <button type="submit">Görev Ekle</button>
+  </form>
+  <div *ngIf="error()" class="error">{{ error() }}</div>
+  <div *ngIf="success()" class="success">{{ success() }}</div>
+  <ul>
+    <li *ngFor="let task of tasks()">
+      <a [routerLink]="['/task', task.id]">{{ task.title }}</a>
+    </li>
+  </ul>
+</div>

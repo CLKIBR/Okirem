@@ -1,0 +1,13 @@
+<div class="role-management-dashboard">
+  <h2>Rol Yönetimi</h2>
+  <div *ngIf="error()" class="error">{{ error() }}</div>
+  <form (ngSubmit)="setUserRole()">
+    <label>Kullanıcı ID:</label>
+    <input [(ngModel)]="selectedUserId" name="selectedUserId" />
+    <label>Rol:</label>
+    <select [(ngModel)]="selectedRole" name="selectedRole">
+      <option *ngFor="let role of roles()" [value]="role">{{ role }}</option>
+    </select>
+    <button type="submit">Rol Ata</button>
+  </form>
+</div>

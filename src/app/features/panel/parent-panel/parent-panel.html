@@ -1,0 +1,28 @@
+<div class="parent-panel">
+  <h2>Veli Paneli</h2>
+  <section>
+    <h3>Öğrencilerim</h3>
+    <ul>
+      <li *ngFor="let student of students()">
+        {{ student.name }} - {{ student.email }}
+        <button (click)="viewStudent(student.id)">Detay</button>
+      </li>
+    </ul>
+  </section>
+  <section *ngIf="selectedStudent()">
+    <h3>{{ selectedStudent().name }} - Detaylar</h3>
+    <p>Puan: {{ selectedStudent().points }}</p>
+    <h4>Dersler</h4>
+    <ul>
+      <li *ngFor="let lesson of lessons()">{{ lesson.title }}</li>
+    </ul>
+    <h4>Görevler</h4>
+    <ul>
+      <li *ngFor="let task of tasks()">{{ task.title }}</li>
+    </ul>
+    <h4>Ödül Geçmişi</h4>
+    <ul>
+      <li *ngFor="let reward of rewards()">{{ reward.title }} - {{ reward.date | date:'short' }}</li>
+    </ul>
+  </section>
+</div>

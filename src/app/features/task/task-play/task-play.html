@@ -1,0 +1,11 @@
+
+<div class="task-play-form">
+  <h2>Görev Oyna</h2>
+  <div *ngIf="error()" class="error">{{ error() }}</div>
+  <div *ngIf="success()" class="success">{{ success() }}</div>
+  <div *ngIf="task()">
+    <p>Görev: {{ task().title }}</p>
+    <button (click)="playTask()">Tamamla</button>
+  </div>
+  <a routerLink="/tasks">Görev Listesine Dön</a>
+</div>

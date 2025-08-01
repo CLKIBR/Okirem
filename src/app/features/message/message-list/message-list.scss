@@ -1,0 +1,6 @@
+.message-list { max-width: 600px; margin: 0 auto; }
+.message-list ul { list-style: none; padding: 0; }
+.message-list li { padding: 8px; border-bottom: 1px solid #eee; display: flex; flex-direction: column; gap: 4px; }
+.message-list form { display: flex; gap: 8px; margin-top: 16px; }
+.message-list input { flex: 1; padding: 6px; border-radius: 4px; border: 1px solid #ccc; }
+.message-list button { padding: 6px 12px; border-radius: 4px; border: none; background: #1976d2; color: #fff; cursor: pointer; }

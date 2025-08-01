@@ -1,0 +1,12 @@
+
+<div class="reward-store-form">
+  <h2>Ödül Mağazası</h2>
+  <div *ngIf="error()" class="error">{{ error() }}</div>
+  <div *ngIf="success()" class="success">{{ success() }}</div>
+  <ul>
+    <li *ngFor="let reward of rewards()">
+      {{ reward.title }}
+      <button (click)="earnReward(reward.id)">Kazan</button>
+    </li>
+  </ul>
+</div>

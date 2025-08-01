@@ -1,0 +1,15 @@
+
+<div class="lesson-detail-form">
+  <h2>Ders Detayı</h2>
+  <div *ngIf="error()" class="error">{{ error() }}</div>
+  <div *ngIf="success()" class="success">{{ success() }}</div>
+  <div *ngIf="lesson()">
+    <form #updateLessonForm="ngForm" (ngSubmit)="updateLesson({ title: title.value })">
+      <label for="title">Ders Adı</label>
+      <input id="title" name="title" type="text" #title [value]="lesson().title" required />
+      <button type="submit">Güncelle</button>
+    </form>
+    <p>Ders ID: {{ lesson().id }}</p>
+  </div>
+  <a routerLink="/lessons">Ders Listesine Dön</a>
+</div>

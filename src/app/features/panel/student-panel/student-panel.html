@@ -1,0 +1,46 @@
+
+<div class="student-panel">
+  <h2>Hoşgeldin, {{ profile().name || 'Öğrenci' }}</h2>
+  <section>
+    <h3>Profil Bilgileri</h3>
+    <div>
+      <p>Email: {{ profile().email }}</p>
+      <p>Puan: {{ profile().points }}</p>
+      <button (click)="updateProfile({ name: 'Yeni İsim' })">Adı Güncelle</button>
+    </div>
+  </section>
+  <section>
+    <h3>Dersler</h3>
+    <ul>
+      <li *ngFor="let lesson of lessons()">
+        {{ lesson.title }}
+      </li>
+    </ul>
+  </section>
+  <section>
+    <h3>Görevler</h3>
+    <ul>
+      <li *ngFor="let task of tasks()">
+        {{ task.title }}
+        <button (click)="completeTask(task.id)">Tamamla</button>
+      </li>
+    </ul>
+  </section>
+  <section>
+    <h3>Ödüller</h3>
+    <ul>
+      <li *ngFor="let reward of rewards()">
+        {{ reward.title }}
+        <button (click)="earnReward(reward.id)">Kazan</button>
+      </li>
+    </ul>
+  </section>
+  <section>
+    <h3>Liderlik Tablosu</h3>
+    <ol>
+      <li *ngFor="let user of leaderboard(); let i = index">
+        {{ i + 1 }}. {{ user.name }} - {{ user.points }} puan
+      </li>
+    </ol>
+  </section>
+</div>

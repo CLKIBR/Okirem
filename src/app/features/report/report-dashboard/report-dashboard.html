@@ -1,0 +1,78 @@
+<div class="report-dashboard">
+  <h2>Raporlama</h2>
+  <button class="export-btn" type="button" (click)="exportCSV()" aria-label="Tüm raporları CSV olarak dışa aktar">
+    <span class="material-icons" aria-hidden="true">download</span>
+    CSV Dışa Aktar
+  </button>
+  <div *ngIf="error()" class="error">{{ error() }}</div>
+  <section>
+    <h3>Kullanıcı Raporu</h3>
+    <table role="table">
+      <thead>
+        <tr>
+          <th scope="col">Ad</th>
+          <th scope="col">Aktivite</th>
+          <th scope="col">Tarih</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let u of userReport()">
+          <td>{{ u.name }}</td>
+          <td>{{ u.activity }}</td>
+          <td>{{ u.date | date:'short' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+  <section>
+    <h3>Ders Raporu</h3>
+    <table role="table">
+      <thead>
+        <tr>
+          <th scope="col">Ders</th>
+          <th scope="col">Tamamlanan</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let l of lessonReport()">
+          <td>{{ l.title }}</td>
+          <td>{{ l.completed }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+  <section>
+    <h3>Görev Raporu</h3>
+    <table role="table">
+      <thead>
+        <tr>
+          <th scope="col">Görev</th>
+          <th scope="col">Tamamlanan</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let t of taskReport()">
+          <td>{{ t.title }}</td>
+          <td>{{ t.completed }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+  <section>
+    <h3>Ödül Raporu</h3>
+    <table role="table">
+      <thead>
+        <tr>
+          <th scope="col">Ödül</th>
+          <th scope="col">Kazanılan</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let r of rewardReport()">
+          <td>{{ r.title }}</td>
+          <td>{{ r.earned }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</div>

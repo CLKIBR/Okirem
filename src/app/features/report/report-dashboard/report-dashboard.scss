@@ -1,0 +1,60 @@
+.report-dashboard { max-width: 700px; margin: 2rem auto; }
+.report-dashboard h2 { font-size: 1.5rem; margin-bottom: 1rem; }
+// CSV dışa aktarma butonu stili
+.export-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  transition: background 0.2s;
+}
+.export-btn:hover, .export-btn:focus {
+  background: #1565c0;
+  outline: none;
+}
+.export-btn .material-icons {
+  font-size: 1.2rem;
+  vertical-align: middle;
+}
+.report-dashboard .error { color: #c00; margin-bottom: 1rem; }
+.report-dashboard section { background: #f5f5f5; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; }
+.report-dashboard table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; }
+.report-dashboard th, .report-dashboard td { padding: 8px; border: 1px solid #ddd; }
+
+// Responsive ve dokunmatik iyileştirmeler
+@media (max-width: 600px) {
+  .report-dashboard {
+    max-width: 100%;
+    margin: 1rem;
+    padding: 0.5rem;
+  }
+  .report-dashboard h2 {
+    font-size: 1.1rem;
+    margin-bottom: 0.7rem;
+  }
+  .export-btn {
+    width: 100%;
+    font-size: 0.95rem;
+    padding: 0.7rem 0.5rem;
+  }
+  .report-dashboard section {
+    padding: 0.5rem;
+    margin-bottom: 0.7rem;
+  }
+  .report-dashboard table, .report-dashboard th, .report-dashboard td {
+    font-size: 0.95rem;
+    padding: 6px;
+  }
+  .report-dashboard th, .report-dashboard td {
+    white-space: normal;
+  }
+}

@@ -1,0 +1,24 @@
+.audit-log-dashboard { max-width: 700px; margin: 2rem auto; }
+.audit-log-dashboard h2 { font-size: 1.5rem; margin-bottom: 1rem; }
+.audit-log-dashboard .error { color: #c00; margin-bottom: 1rem; }
+.audit-log-dashboard table { width: 100%; border-collapse: collapse; }
+.audit-log-dashboard th, .audit-log-dashboard td { padding: 8px; border: 1px solid #ddd; }
+
+@media (max-width: 600px) {
+  .audit-log-dashboard {
+    max-width: 100%;
+    margin: 1rem;
+    padding: 0.5rem;
+  }
+  .audit-log-dashboard h2 {
+    font-size: 1.1rem;
+    margin-bottom: 0.7rem;
+  }
+  .audit-log-dashboard table, .audit-log-dashboard th, .audit-log-dashboard td {
+    font-size: 0.95rem;
+    padding: 6px;
+  }
+  .audit-log-dashboard th, .audit-log-dashboard td {
+    white-space: normal;
+  }
+}

@@ -1,0 +1,24 @@
+<div class="audit-log-dashboard">
+  <h2>Audit Logları</h2>
+  <div *ngIf="error()" class="error" role="alert">{{ error() }}</div>
+  <input type="text" [(ngModel)]="search" name="search" placeholder="Loglarda ara..." aria-label="Loglarda ara" style="margin-bottom:12px;" />
+  <button (click)="exportCSV()" style="margin-bottom:12px;" aria-label="Audit logları CSV olarak dışa aktar">CSV olarak dışa aktar</button>
+  <table role="table">
+    <thead>
+      <tr>
+        <th scope="col">Kullanıcı</th>
+        <th scope="col">İşlem</th>
+        <th scope="col">Detay</th>
+        <th scope="col">Tarih</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let log of logs() | auditLogFilter:search">
+        <td>{{ log.userId }}</td>
+        <td>{{ log.action }}</td>
+        <td>{{ log.details | json }}</td>
+        <td>{{ log.date | date:'short' }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,14 @@
+<div class="message-list">
+  <h2>Mesajlar</h2>
+  <ul>
+    <li *ngFor="let msg of messages()">
+      <span><strong>{{ msg.from }}</strong> → <strong>{{ msg.to }}</strong></span>
+      <span>{{ msg.text }}</span>
+      <span>{{ msg.date | date:'short' }}</span>
+    </li>
+  </ul>
+  <form (ngSubmit)="sendMessage({ from: 'demo', to: 'demo', text: messageText })">
+    <input [(ngModel)]="messageText" name="messageText" placeholder="Mesaj yaz..." />
+    <button type="submit">Gönder</button>
+  </form>
+</div>

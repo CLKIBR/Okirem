@@ -1,0 +1,10 @@
+<div class="file-share-list" role="main">
+  <h2>Dosya Paylaşımı</h2>
+  <input type="file" (change)="upload($event)" aria-label="Dosya seç ve yükle" />
+  <div *ngIf="error()" class="error" role="alert">{{ error() }}</div>
+  <ul role="list">
+    <li *ngFor="let file of files()" role="listitem">
+      <a [href]="file" target="_blank" aria-label="Dosyayı indir">Dosyayı indir</a>
+    </li>
+  </ul>
+</div>

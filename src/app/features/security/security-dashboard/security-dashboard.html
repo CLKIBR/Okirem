@@ -1,0 +1,20 @@
+<div class="security-dashboard">
+  <h2>Güvenlik ve Oturum Yönetimi</h2>
+  <div *ngIf="error()" class="error">{{ error() }}</div>
+  <table>
+    <thead>
+      <tr>
+        <th>Kullanıcı</th>
+        <th>Cihaz</th>
+        <th>Son Aktif</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let s of sessions()">
+        <td>{{ s.userId }}</td>
+        <td>{{ s.device }}</td>
+        <td>{{ s.lastActive | date:'short' }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

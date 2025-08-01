@@ -1,0 +1,42 @@
+<div class="teacher-panel">
+  <h2>Öğretmen Paneli</h2>
+  <section>
+    <h3>Dersler</h3>
+    <ul>
+      <li *ngFor="let lesson of lessons()">
+        {{ lesson.title }}
+        <button (click)="editLesson(lesson.id)">Düzenle</button>
+        <button (click)="deleteLesson(lesson.id)">Sil</button>
+      </li>
+    </ul>
+    <button (click)="addLesson()">Yeni Ders Ekle</button>
+  </section>
+  <section>
+    <h3>Görevler</h3>
+    <ul>
+      <li *ngFor="let task of tasks()">
+        {{ task.title }}
+        <button (click)="editTask(task.id)">Düzenle</button>
+        <button (click)="deleteTask(task.id)">Sil</button>
+      </li>
+    </ul>
+    <button (click)="addTask()">Yeni Görev Ekle</button>
+  </section>
+  <section>
+    <h3>Öğrenciler</h3>
+    <ul>
+      <li *ngFor="let student of students()">
+        {{ student.name }} - {{ student.email }}
+        <button (click)="giveReward(student.id)">Ödül Ver</button>
+      </li>
+    </ul>
+  </section>
+  <section>
+    <h3>Liderlik Tablosu</h3>
+    <ol>
+      <li *ngFor="let user of leaderboard(); let i = index">
+        {{ i + 1 }}. {{ user.name }} - {{ user.points }} puan
+      </li>
+    </ol>
+  </section>
+</div>

@@ -1,0 +1,14 @@
+
+<div class="profile-form">
+  <h2>Profilim</h2>
+  <form #profileForm="ngForm" (ngSubmit)="updateProfile({ name: name.value, email: email.value })">
+    <label for="name">Ad Soyad</label>
+    <input id="name" name="name" type="text" #name [value]="profile().name" required />
+    <label for="email">E-posta</label>
+    <input id="email" name="email" type="email" #email [value]="profile().email" required />
+    <button type="submit">Güncelle</button>
+  </form>
+  <p>Puan: {{ profile().points }}</p>
+  <div *ngIf="error()" class="error">{{ error() }}</div>
+  <div *ngIf="success()" class="success">{{ success() }}</div>
+</div>

@@ -1,0 +1,26 @@
+.file-share-list {
+  max-width: 500px;
+  margin: 2rem auto;
+  h2 { font-size: 1.5rem; }
+  .error { color: #c00; margin: 1rem 0; }
+  ul { padding: 0; list-style: none; }
+  li { margin: 0.5rem 0; }
+}
+
+@media (max-width: 600px) {
+  .file-share-list {
+    max-width: 100%;
+    margin: 1rem;
+    padding: 0.5rem;
+  }
+  .file-share-list h2 {
+    font-size: 1.1rem;
+  }
+  .file-share-list ul {
+    padding: 0;
+  }
+  .file-share-list li {
+    font-size: 0.95rem;
+    margin: 0.3rem 0;
+  }
+}

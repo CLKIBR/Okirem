@@ -1,0 +1,24 @@
+<div class="analytics-dashboard" role="main">
+  <h2>Analiz ve Raporlama</h2>
+  <div *ngIf="error()" class="error" role="alert">{{ error() }}</div>
+  <section *ngIf="userStats()" aria-labelledby="user-stats-title">
+    <h3 id="user-stats-title">Kullanıcı İstatistikleri</h3>
+    <p><strong>Toplam:</strong> {{ userStats().total }}</p>
+    <p><strong>Aktif:</strong> {{ userStats().active }}</p>
+  </section>
+  <section *ngIf="lessonStats()" aria-labelledby="lesson-stats-title">
+    <h3 id="lesson-stats-title">Ders İstatistikleri</h3>
+    <p><strong>Toplam:</strong> {{ lessonStats().total }}</p>
+    <p><strong>Tamamlanan:</strong> {{ lessonStats().completed }}</p>
+  </section>
+  <section *ngIf="taskStats()" aria-labelledby="task-stats-title">
+    <h3 id="task-stats-title">Görev İstatistikleri</h3>
+    <p><strong>Toplam:</strong> {{ taskStats().total }}</p>
+    <p><strong>Tamamlanan:</strong> {{ taskStats().completed }}</p>
+  </section>
+  <section *ngIf="rewardStats()" aria-labelledby="reward-stats-title">
+    <h3 id="reward-stats-title">Ödül İstatistikleri</h3>
+    <p><strong>Toplam:</strong> {{ rewardStats().total }}</p>
+    <p><strong>Kazanılan:</strong> {{ rewardStats().earned }}</p>
+  </section>
+</div>

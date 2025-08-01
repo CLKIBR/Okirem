@@ -1,0 +1,10 @@
+<div class="notification-detail">
+  <h2>Bildirim Detayı</h2>
+  <div *ngIf="error()" class="error">{{ error() }}</div>
+  <div *ngIf="notification()">
+    <p><strong>Mesaj:</strong> {{ notification().message }}</p>
+    <p><strong>Tarih:</strong> {{ notification().date | date:'short' }}</p>
+    <p><strong>Durum:</strong> {{ notification().read ? 'Okundu' : 'Okunmadı' }}</p>
+  </div>
+  <div *ngIf="!notification() && !error()">Bildirim bulunamadı.</div>
+</div>
