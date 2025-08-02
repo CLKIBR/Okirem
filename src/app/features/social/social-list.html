@@ -1,0 +1,9 @@
+<!-- social-list.html -->
+<div class="social-list">
+  <h2>Sosyal Etkileşimler</h2>
+  <ul>
+    <li *ngFor="let interaction of interactions">
+      {{ interaction.user }}: {{ interaction.action }}
+    </li>
+  </ul>
+</div>

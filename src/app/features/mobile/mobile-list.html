@@ -1,0 +1,9 @@
+<!-- mobile-list.html -->
+<div class="mobile-list">
+  <h2>Mobil Özellikler</h2>
+  <ul>
+    <li *ngFor="let feature of features">
+      <strong>{{ feature.name }}</strong>: {{ feature.description }}
+    </li>
+  </ul>
+</div>

@@ -1,0 +1,9 @@
+<!-- campaign-list.html -->
+<div class="campaign-list">
+  <h2>Kampanyalar & Promosyonlar</h2>
+  <ul>
+    <li *ngFor="let campaign of campaigns">
+      {{ campaign.name }} - {{ campaign.description }}
+    </li>
+  </ul>
+</div>

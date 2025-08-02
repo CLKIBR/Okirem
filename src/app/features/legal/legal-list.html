@@ -1,0 +1,9 @@
+<!-- legal-list.html -->
+<div class="legal-list">
+  <h2>Yasal Belgeler</h2>
+  <ul>
+    <li *ngFor="let document of documents">
+      <strong>{{ document.title }}</strong>: {{ document.description }}
+    </li>
+  </ul>
+</div>

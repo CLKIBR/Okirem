@@ -1,0 +1,9 @@
+<!-- pwa-list.html -->
+<div class="pwa-list">
+  <h2>PWA Özellikleri</h2>
+  <ul>
+    <li *ngFor="let feature of features">
+      <strong>{{ feature.name }}</strong>: {{ feature.description }}
+    </li>
+  </ul>
+</div>

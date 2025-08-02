@@ -1,0 +1,9 @@
+<!-- advanced-report-list.html -->
+<div class="advanced-report-list">
+  <h2>Gelişmiş Raporlar</h2>
+  <ul>
+    <li *ngFor="let report of reports">
+      <strong>{{ report.title }}</strong>: {{ report.summary }}
+    </li>
+  </ul>
+</div>
