@@ -3,8 +3,8 @@ import { Component, signal } from '@angular/core';
 
 @Component({
   selector: 'app-blog-list',
-  templateUrl: './blog-list.html',
-  styleUrl: './blog-list.scss',
+  templateUrl: 'blog-list.html',
+  styleUrl: 'blog-list.scss',
   imports: [CommonModule]
 })
 export class BlogListComponent {
