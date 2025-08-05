@@ -1,0 +1,31 @@
+<ng-component>
+    <!-- Hero Section -->
+    <main class="w-full min-h-[calc(100vh-8rem)] flex flex-row items-stretch relative">
+        <!-- Sol arka plan karakter görseli -->
+        <div class="flex-1 relative flex items-end justify-center inset-0 z-10 pointer-events-none">
+            <img src="assets/images/hero.png" alt="Hero"
+                class="absolute left-0 bottom-0 max-h-[80vh] object-contain select-none pointer-events-none" />
+        </div>
+        <!-- Sağ içerik -->
+        <div class="flex-1 flex flex-col justify-center  px-8 py-12 md:py-0">
+            <div class="w-full max-w-xl flex flex-col items-center justify-center">
+                <h1 class="text-6xl font-bold leading-tight text-center w-full">
+                    <span class="text-warning">Hayal Et, Oyna, Keşfet!</span> Öğrenmenin Sınırlarını Zorla
+                </h1>
+                <p class="mt-6 text-lg text-gray-600 w-full text-center">
+                    <span class="text-warning font-semibold">Gizemli görevler</span>, <span
+                        class="text-warning font-semibold">sürpriz ödüller</span> ve <span
+                        class="text-warning font-semibold">senin yolculuğun</span> için hazırlandı.<br>
+                    Sıradaki adımı görmek için <span class="text-warning font-semibold">hemen keşfe başla!</span>
+                </p>
+                <div class="mt-8 w-full flex justify-center gap-[10px]">
+                    <button
+                        class="px-6 py-3 rounded bg-warning text-white font-semibold text-lg shadow hover:bg-warning/90 transition">Başla</button>
+                    <button
+                        class="px-6 py-3 rounded bg-white text-black font-semibold text-lg border border-warning shadow hover:bg-primary hover:text-white transition">Daha
+                        Fazla</button>
+                </div>
+            </div>
+        </div>
+    </main>
+</ng-component>
