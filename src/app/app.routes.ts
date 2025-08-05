@@ -1,6 +1,15 @@
 import { Routes } from '@angular/router';
-import { Admin, adminRoutes, Parent, parentRoutes, Student, studentRoutes, Teacher, teacherRoutes } from './pages';
-import { Home } from './features';
+import {
+  Admin,
+  adminRoutes,
+  Parent,
+  parentRoutes,
+  Student,
+  studentRoutes,
+  Teacher,
+  teacherRoutes,
+} from './pages';
+import { Home, Login, Register, registerRoutes } from './features';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -36,5 +45,14 @@ export const routes: Routes = [
     component: Parent,
     children: parentRoutes,
     //canActivate: [authGuard],
+  },
+  
+  {
+    path: 'login',
+    component: Login,
+  },
+  { path: 'register', 
+    component: Register, 
+    children: registerRoutes 
   },
 ];

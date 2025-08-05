@@ -2,10 +2,10 @@ import { ApplicationConfig, importProvidersFrom, provideBrowserGlobalErrorListen
 import { provideRouter, withEnabledBlockingInitialNavigation, withHashLocation, withInMemoryScrolling, withRouterConfig, withViewTransitions } from '@angular/router';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { routes } from './app.routes';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { DropdownModule, SidebarModule } from '@coreui/angular';
 import { IconSetService } from '@coreui/icons-angular';
-import { firebaseProviders } from './core';
+import { AuthInterceptor, ErrorInterceptor, firebaseProviders, LoadingInterceptor } from './core';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -22,7 +22,11 @@ export const appConfig: ApplicationConfig = {
       //withHashLocation()
     ),
 
-    provideHttpClient(),
+    provideHttpClient(withInterceptors([
+      AuthInterceptor,
+      ErrorInterceptor,
+      LoadingInterceptor
+    ])),
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     importProvidersFrom(SidebarModule, DropdownModule),
