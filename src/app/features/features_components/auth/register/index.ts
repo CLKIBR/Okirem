@@ -1,3 +1,3 @@
 export * from './register-components';
-export * from './register';
-export * from './register.router';
+export * from './register/register';
+export * from './register.routes';

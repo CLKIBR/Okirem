@@ -1,35 +1,14 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
-import {
-  Observable,
-  map,
-  catchError,
-  switchMap,
-  tap,
-  throwError,
-  BehaviorSubject,
-  debounceTime,
-  take,
-  Subscription,
-  interval,
-} from 'rxjs';
+import { Observable, map, catchError, switchMap, tap, throwError, BehaviorSubject, debounceTime, take, Subscription, interval,} from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from '../../../../environments/environment';
-
-import { LocalStorageService } from './';
-import { AuthBaseService } from '../';
-
-import {
-  UserForLoginRequest,
-  ApplicantForRegisterRequest,
-  UserForLoginWithVerifyRequest,
-  ResetPasswordRequest,
-  ForgotPasswordRequest,
-  AccessTokenModel,
-  TokenModel,
-} from '../../models';
+import { LocalStorageService } from './local-storage.service';
+import { AuthBaseService } from '../abstracts';
+import { UserForLoginRequest, ApplicantForRegisterRequest, UserForLoginWithVerifyRequest, ResetPasswordRequest, ForgotPasswordRequest,
+  AccessTokenModel, TokenModel,} from '../../models';
 
 @Injectable({
   providedIn: 'root',
@@ -71,33 +50,47 @@ export class AuthService extends AuthBaseService implements OnDestroy {
 
  
 
-  //Ogrenci kayıt olma formunu gönderir
+  /**
+   * Kullanıcı kayıt işlemi (registerApplicant)
+   * Swagger örneği ile birebir uyumlu şekilde request gönderir.
+   * @param userforRegisterRequest Kullanıcı kayıt modeli
+   * @returns TokenModel
+   *
+   * Swagger örnekleri için:
+   * Request Body: application/json
+   * {
+   *   "email": "string",
+   *   "password": "string",
+   *   ...diğer alanlar
+   * }
+   *
+   * Curl:
+   * curl -X POST "{API_URL}/auth/registerapplicant" -H "accept: text/plain" -H "Content-Type: application/json" -d "{...}"
+   *
+   * Request URL:
+   * {API_URL}/auth/registerapplicant
+   */
   override registerApplicant(
     userforRegisterRequest: ApplicantForRegisterRequest
   ): Observable<TokenModel> {
     return this.httpClient
       .post<TokenModel>(
         `${this.apiUrl}/registerapplicant`,
-        userforRegisterRequest
+        userforRegisterRequest,
+        { headers: new HttpHeaders({ 'Content-Type': 'application/json', accept: 'text/plain' }) }
       )
       .pipe(
-        switchMap((response: TokenModel) => {
-          this.storageService.setToken(response.token);
-          return this.sendVerifyEmail().pipe(
-            tap(() => {
-              this.toastrService.success(
-                'Doğrulama maili gönderildi',
-                'Giriş Başarılı'
-              );
-              localStorage.removeItem('token');
-            })
-          );
+        tap((response: TokenModel) => {
+          // Token varsa güvenli şekilde kaydet
+          if (response.token) {
+            this.storageService.setToken(response.token);
+            this.toastrService.success('Kayıt başarılı, doğrulama maili gönderildi.', 'Başarılı');
+          }
         }),
         catchError((error) => {
-          console.error('Hata:', error);
-          this.toastrService.error(
-            'Mail gönderilemedi. Lütfen tekrar deneyin.'
-          );
+          // Swagger error response ile uyumlu hata yönetimi
+          const msg = error?.error?.message || 'Kayıt sırasında bir hata oluştu.';
+          this.toastrService.error(msg, 'Kayıt Hatası');
           return throwError(error);
         })
       );
@@ -126,7 +119,25 @@ export class AuthService extends AuthBaseService implements OnDestroy {
     );
   }
 
-  //  email ve passwordu login olmak için gönderilir, activationKey kısmı null olarak post edilir(aktivasyon kodu null gönderildiği takdirde backend'de AktivasyonKeyi generate ediliyoruz ve mail olarak gönderiliyoruz) 2FA'i tetikler
+  /**
+   * Kullanıcı giriş işlemi (login)
+   * Swagger örneği ile birebir uyumlu şekilde request gönderir.
+   * @param userLoginRequest Kullanıcı giriş modeli
+   * @returns AccessTokenModel<TokenModel>
+   *
+   * Swagger örnekleri için:
+   * Request Body: application/json
+   * {
+   *   "email": "string",
+   *   "password": "string"
+   * }
+   *
+   * Curl:
+   * curl -X POST "{API_URL}/auth/login" -H "accept: text/plain" -H "Content-Type: application/json" -d "{...}"
+   *
+   * Request URL:
+   * {API_URL}/auth/login
+   */
   login(
     userLoginRequest: UserForLoginRequest
   ): Observable<AccessTokenModel<TokenModel>> {
@@ -134,7 +145,7 @@ export class AuthService extends AuthBaseService implements OnDestroy {
       .post<AccessTokenModel<TokenModel>>(
         `${this.apiUrl}/login`,
         userLoginRequest,
-        { withCredentials: true }
+        { headers: new HttpHeaders({ 'Content-Type': 'application/json', accept: 'text/plain' }), withCredentials: true }
       )
       .pipe(
         tap((response) => {
@@ -142,9 +153,15 @@ export class AuthService extends AuthBaseService implements OnDestroy {
             this.storageService.setToken(response.accessToken.token);
             this.isLoggedInSubject.next(true);
             this.isAdminSubject.next(true);
+            this.toastrService.success('Giriş başarılı.', 'Başarılı');
           } else {
-            //this.toastrService.info('We sent a verification code');
+            this.toastrService.info('Doğrulama kodu gönderildi.', '2FA');
           }
+        }),
+        catchError((error) => {
+          const msg = error?.error?.message || 'Giriş sırasında bir hata oluştu.';
+          this.toastrService.error(msg, 'Giriş Hatası');
+          return throwError(error);
         })
       );
   }
@@ -340,7 +357,11 @@ export class AuthService extends AuthBaseService implements OnDestroy {
   getUserPosition(): string | null {
     const decoded = this.getDecodedToken();
     if (!decoded) return null;
-    // Pozisyon claim anahtarı backend'e göre değişebilir
+    // Öncelikle positionName claim'ini kullan
+    if (decoded['positionName']) {
+      return decoded['positionName'];
+    }
+    // Eski claim desteği (gerekirse)
     const positionKey = Object.keys(decoded).find((x) =>
       x.endsWith('/position')
     );

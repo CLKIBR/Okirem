@@ -1,0 +1,33 @@
+<div class="min-vh-100 d-flex flex-row align-items-center justify-content-center bg-light">
+  <div class="card shadow-lg p-4" style="min-width:340px;max-width:400px;width:100%;">
+    <div class="card-body">
+      <h2 class="mb-4 text-center">Giriş Yap</h2>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" autocomplete="off" novalidate>
+        <div class="mb-3">
+          <label for="email" class="form-label">E-posta</label>
+          <input type="email" id="email" class="form-control" formControlName="email" [ngClass]="{'is-invalid': submitted && f['email'].errors}" placeholder="E-posta adresiniz">
+          <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+            <div *ngIf="f['email'].errors['required']">E-posta zorunlu.</div>
+            <div *ngIf="f['email'].errors['email']">Geçerli bir e-posta girin.</div>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Şifre</label>
+          <input type="password" id="password" class="form-control" formControlName="password" [ngClass]="{'is-invalid': submitted && f['password'].errors}" placeholder="Şifreniz">
+          <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
+            <div *ngIf="f['password'].errors['required']">Şifre zorunlu.</div>
+            <div *ngIf="f['password'].errors['minlength']">Şifre en az 8 karakter olmalı.</div>
+          </div>
+        </div>
+        <div *ngIf="error" class="alert alert-danger py-2">{{ error }}</div>
+        <button type="submit" class="btn btn-primary w-100" [disabled]="loading">
+          <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+          Giriş Yap
+        </button>
+      </form>
+      <div class="text-center mt-3">
+        <a [routerLink]="['/login/forgot-password']" class="small">Şifremi Unuttum</a>
+      </div>
+    </div>
+  </div>
+</div>

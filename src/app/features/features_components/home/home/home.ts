@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { HomeHeader, HomeFooter, HomeHeroOne } from "./home_Components";
+import { RouterOutlet } from '@angular/router';
+
 
 @Component({
   selector: 'app-home',
-  imports: [HomeHeader, HomeFooter, HomeHeroOne],
+  imports: [RouterOutlet],
   templateUrl: './home.html',
   styleUrl: './home.scss'
 })

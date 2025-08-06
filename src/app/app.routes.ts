@@ -9,18 +9,26 @@ import {
   Teacher,
   teacherRoutes,
 } from './pages';
-import { Home, Login, Register, registerRoutes } from './features';
+import { Login, loginRoutes, Register, registerRoutes } from './features';
+import { LoginGuard } from './core';
+import { Home, homeRoutes } from './features/features_components/home';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: 'home', component: Home },
+  { path: '', redirectTo: 'homePage', pathMatch: 'full' },
+
+  // Home
+  { 
+    path: '', 
+    component: Home, 
+    children: homeRoutes 
+  },
 
   // Admin
   {
     path: 'admin',
     component: Admin,
     children: adminRoutes,
-    //canActivate: [authGuard],
+    canActivate: [LoginGuard],
   },
 
   //Student
@@ -28,7 +36,7 @@ export const routes: Routes = [
     path: 'student',
     component: Student,
     children: studentRoutes,
-    //canActivate: [authGuard],
+    canActivate: [LoginGuard],
   },
 
   //Teacher
@@ -36,7 +44,7 @@ export const routes: Routes = [
     path: 'teacher',
     component: Teacher,
     children: teacherRoutes,
-    //canActivate: [authGuard],
+    canActivate: [LoginGuard],
   },
 
   //Parent
@@ -44,15 +52,16 @@ export const routes: Routes = [
     path: 'parent',
     component: Parent,
     children: parentRoutes,
-    //canActivate: [authGuard],
+    canActivate: [LoginGuard],
   },
-  
+
+  //Login
   {
     path: 'login',
     component: Login,
+    children: loginRoutes,
   },
-  { path: 'register', 
-    component: Register, 
-    children: registerRoutes 
-  },
+
+  //Register
+  { path: 'register', component: Register, children: registerRoutes },
 ];

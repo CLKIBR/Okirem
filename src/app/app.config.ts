@@ -5,7 +5,8 @@ import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { DropdownModule, SidebarModule } from '@coreui/angular';
 import { IconSetService } from '@coreui/icons-angular';
-import { AuthInterceptor, ErrorInterceptor, firebaseProviders, LoadingInterceptor } from './core';
+import { AuthInterceptor, ErrorInterceptor, LoadingInterceptor } from './core';
+import { ToastrModule } from 'ngx-toastr';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -29,10 +30,9 @@ export const appConfig: ApplicationConfig = {
     ])),
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
-    importProvidersFrom(SidebarModule, DropdownModule),
+    importProvidersFrom(SidebarModule, DropdownModule,ToastrModule.forRoot()),
     IconSetService,
     provideAnimationsAsync(),
-    ...firebaseProviders
     
   ]
 };
