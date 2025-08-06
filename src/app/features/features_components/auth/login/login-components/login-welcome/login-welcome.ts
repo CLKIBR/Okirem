@@ -4,13 +4,14 @@ import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../../../services/concretes/auth.service';
 import { ToastrModule } from 'ngx-toastr';
+import { ColComponent, ContainerComponent, RowComponent } from "@coreui/angular";
 
 @Component({
   selector: 'app-login',
   templateUrl: './login-welcome.html',
   styleUrls: ['./login-welcome.scss'],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule,ToastrModule]
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, ToastrModule]
 })
 export class LoginWelcome {
   loginForm: FormGroup;

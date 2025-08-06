@@ -194,26 +194,26 @@ export class AuthService extends AuthBaseService implements OnDestroy {
   }
 
   //ŞifreSıfırlamak için yeni şifreyi gönderir
-  resetPassword(token: string, resetPasswordRequest: ResetPasswordRequest) {
-    var tokenn = token;
-    console.log(`Bearer ${tokenn}`);
+  resetPassword(token: string, resetPasswordRequest: ResetPasswordRequest): Observable<any> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
       accept: 'application/json',
     });
-
-    this.httpClient
-      .post(`${this.apiUrl}/ResetPassword`, resetPasswordRequest, { headers })
-      .pipe()
-      .subscribe((response) => {
-        this.toastrService.success(
-          'You are now redirected to the Login page.',
-          'Reset Password Success'
-        );
-        setTimeout(() => {
-          this.router.navigate(['login']);
-        }, 1500);
-      });
+    // NOT: Endpoint yolunu backend ile birebir aynı yapın (gerekirse küçük harfli)
+    return this.httpClient.post(
+      `${this.apiUrl}/ResetPassword`,
+      resetPasswordRequest,
+      { headers }
+    ).pipe(
+      tap(() => {
+        this.toastrService.success('Şifre sıfırlama başarılı.', 'Başarılı');
+      }),
+      catchError((error) => {
+        const msg = error?.error?.message || 'Şifre sıfırlama sırasında bir hata oluştu.';
+        this.toastrService.error(msg, 'Şifre Sıfırlama Hatası');
+        return throwError(error);
+      })
+    );
   }
 
   //Şifremi unuttum kısmında girilen Email adresine şifremi unuttum postası gönderir(Token göndermez)
