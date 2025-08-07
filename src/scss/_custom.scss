@@ -1,3 +1,10 @@
+// Gradient yazı stili (global)
+.gradient-text {
+  background: linear-gradient(90deg, #ffe066 0%, #ff9800 50%, #ff5722 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
 // Here you can add other styles
 
 // custom .chartjs-tooltip-body-item padding

@@ -1,12 +1,12 @@
-export interface UserInfo {
-  id: string;
+export interface UserForRegisterRequest {
+  // Kişisel Bilgiler
   email: string;
+  password: string;
   firstName: string;
   lastName: string;
-  userName: string;
   phoneNumber?: string;
   birthDate?: Date;
-  gender?: string;
+  gender?: string; // GenderType enumu string olarak bekleniyor
   address?: string;
   nationalId?: string;
   profileImageUrl?: string;
@@ -14,10 +14,11 @@ export interface UserInfo {
   isActive?: boolean;
   lastLoginDate?: Date;
   institution?: string;
-  position?: string;
-  preferredLanguage?: string;
+  position?: string; // PositionType enumu string olarak bekleniyor
+  preferredLanguage?: string; // LanguageType enumu string olarak bekleniyor
   bio?: string;
   socialLinks?: string;
+  // Oyunlaştırma Bilgileri
   experiencePoints?: number;
   level?: number;
   badgeCount?: number;
@@ -31,10 +32,4 @@ export interface UserInfo {
   totalLoginCount?: number;
   isEmailVerified?: boolean;
   isPhoneVerified?: boolean;
-  operatingSystem:string,
-  ipAddress:string
-}
-export interface UserInfo{
-    operatingSystem:string,
-    ipAddress:string
 }
