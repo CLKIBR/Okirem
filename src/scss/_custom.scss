@@ -1,3 +1,8 @@
+// Gradient arka plan (butonlar için)
+.gradient-bg {
+  background: linear-gradient(90deg, #ffe066 0%, #ff9800 50%, #ff5722 100%);
+  border: none;
+}
 // Gradient yazı stili (global)
 .gradient-text {
   background: linear-gradient(90deg, #ffe066 0%, #ff9800 50%, #ff5722 100%);
