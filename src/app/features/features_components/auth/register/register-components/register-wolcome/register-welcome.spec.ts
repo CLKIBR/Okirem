@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RegisterWelcome } from './register-wolcome';
+import { RegisterWelcome } from './register-welcome';
 
 describe('RegisterWolcome', () => {
   let component: RegisterWelcome;
