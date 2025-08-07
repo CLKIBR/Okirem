@@ -1,2 +1,2 @@
 export * from './register-wizard/register-wizard';
-export * from './register-wolcome/register-welcome';
+export * from './register-welcome/register-welcome';
