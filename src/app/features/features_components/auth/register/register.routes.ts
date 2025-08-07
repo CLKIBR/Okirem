@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
-import { RegisterWizard, RegisterWolcome } from './register-components';
+import { RegisterWizard, RegisterWelcome } from './register-components';
 
 export const registerRoutes: Routes = [
-  { path: '', component: RegisterWolcome },
+  { path: '', component: RegisterWelcome },
   { path: 'wizard', component: RegisterWizard,},
 ];

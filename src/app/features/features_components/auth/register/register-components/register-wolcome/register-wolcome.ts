@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-register-wolcome',
+  selector: 'app-register-welcome',
   imports: [],
-  templateUrl: './register-wolcome.html',
-  styleUrl: './register-wolcome.scss'
+  templateUrl: './register-welcome.html',
+  styleUrl: './register-welcome.scss'
 })
-export class RegisterWolcome {
+export class RegisterWelcome {
 
 }

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RegisterWolcome } from './register-wolcome';
+import { RegisterWelcome } from './register-wolcome';
 
 describe('RegisterWolcome', () => {
-  let component: RegisterWolcome;
-  let fixture: ComponentFixture<RegisterWolcome>;
+  let component: RegisterWelcome;
+  let fixture: ComponentFixture<RegisterWelcome>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RegisterWolcome]
+      imports: [RegisterWelcome]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(RegisterWolcome);
+    fixture = TestBed.createComponent(RegisterWelcome);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
