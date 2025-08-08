@@ -18,13 +18,14 @@ import {
   RowComponent,
 } from '@coreui/angular';
 import { IconDirective } from '@coreui/icons-angular';
+import { Lagel } from "src/app/features/features_components/legal/lagel/lagel";
 
 @Component({
   selector: 'app-login',
   templateUrl: './login-welcome.html',
   styleUrls: ['./login-welcome.scss'],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule, ToastrModule,IconDirective],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, ToastrModule, IconDirective, Lagel],
 })
 export class LoginWelcome {
   showLoginForm = false;

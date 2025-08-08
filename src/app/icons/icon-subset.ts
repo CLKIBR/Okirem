@@ -107,9 +107,6 @@ import { görevIcon } from './görev';
 import { marketIcon } from './market';
 import { profilIcon } from './profil';
 import { ayarIcon } from './ayar';
-import { ogrenciIcon } from './ogrenci';
-import { ogretmenIcon } from './ogretmen';
-import { veliyimIcon } from './veliyim';
 
 
 export const iconSubset = {
@@ -219,9 +216,6 @@ export const iconSubset = {
   marketIcon,
   profilIcon,
   ayarIcon,
-  ogrenciIcon,
-  ogretmenIcon,
-  veliyimIcon
 };
 
 export enum IconSubset {
@@ -331,8 +325,5 @@ export enum IconSubset {
   marketIcon = 'marketIcon',
   profilIcon = 'profilIcon',
   ayarIcon = 'ayarIcon',
-  ogrenciIcon = 'ogrenciIcon',
-  ogretmenIcon = 'ogretmenIcon',
-  veliyimIcon = 'veliyimIcon'
 }
 

@@ -1,12 +1,12 @@
 <c-container fluid>
-  <c-row [xs]="12">
-    <c-col >
-      <svg  cIcon  height="400" name="ogrenciIcon" title="ogrenciIcon"></svg>
+  <c-row [xs]="12" class="align-items-center" style="height: 900px;">
+    @for (card of roleCards; track card.icon) {
+    <c-col style="display: flex; justify-content: center; align-items: center; height: 100%;">
+      <a (click)="selectRole(card.role)" class="cursor-pointer">
+        <img [src]="card.icon" [alt]="card.title" style="height: 500px; width: auto; display: block; margin: auto;" />
+      </a>
     </c-col>
-    <c-col >
-      <svg  cIcon  height="400" name="ogretmenIcon" title="ogretmenIcon"></svg>
-    </c-col>
-    <c-col >
-    </c-col>
+    }
   </c-row>
+  <lagel></lagel>
 </c-container>
