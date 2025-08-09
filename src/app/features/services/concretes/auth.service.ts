@@ -50,10 +50,11 @@ export class AuthService extends AuthBaseService implements OnDestroy {
 
  
 
+
   /**
-   * Kullanıcı kayıt işlemi (registerApplicant)
-   * Swagger örneği ile birebir uyumlu şekilde request gönderir.
-   * @param userforRegisterRequest Kullanıcı kayıt modeli
+   * Kullanıcı kayıt işlemi (register)
+   * Backend Register endpointine uygun şekilde request gönderir.
+   * @param userForRegisterRequest Kullanıcı kayıt modeli
    * @returns TokenModel
    *
    * Swagger örnekleri için:
@@ -65,18 +66,18 @@ export class AuthService extends AuthBaseService implements OnDestroy {
    * }
    *
    * Curl:
-   * curl -X POST "{API_URL}/auth/registerapplicant" -H "accept: text/plain" -H "Content-Type: application/json" -d "{...}"
+   * curl -X POST "{API_URL}/auth/register" -H "accept: text/plain" -H "Content-Type: application/json" -d "{...}"
    *
    * Request URL:
-   * {API_URL}/auth/registerapplicant
+   * {API_URL}/auth/register
    */
-  override registerApplicant(
-    userforRegisterRequest: ApplicantForRegisterRequest
+  override register(
+    userForRegisterRequest: ApplicantForRegisterRequest
   ): Observable<TokenModel> {
     return this.httpClient
       .post<TokenModel>(
-        `${this.apiUrl}/registerapplicant`,
-        userforRegisterRequest,
+        `${this.apiUrl}/Register`,
+        userForRegisterRequest,
         { headers: new HttpHeaders({ 'Content-Type': 'application/json', accept: 'text/plain' }) }
       )
       .pipe(
@@ -88,7 +89,7 @@ export class AuthService extends AuthBaseService implements OnDestroy {
           }
         }),
         catchError((error) => {
-          // Swagger error response ile uyumlu hata yönetimi
+          // Backend error response ile uyumlu hata yönetimi
           const msg = error?.error?.message || 'Kayıt sırasında bir hata oluştu.';
           this.toastrService.error(msg, 'Kayıt Hatası');
           return throwError(error);

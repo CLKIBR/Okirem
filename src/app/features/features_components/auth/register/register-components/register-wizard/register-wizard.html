@@ -13,8 +13,8 @@
 
                     <!-- Mesaj – üst katman -->
                     <div class="absolute inset-0 z-10 w-[300px] left-[50px] 
-           flex items-center justify-center -translate-y-5
-           px-6  text-center text-base font-semibold text-black leading-snug pointer-events-none">
+                        flex items-center justify-center -translate-y-5
+                        px-6  text-center text-base font-semibold text-black leading-snug pointer-events-none">
                         {{ steps[currentStep].message }}
                     </div>
                 </div>
@@ -26,7 +26,6 @@
 
 
     <div class="relative py-3 sm:max-w-xl sm:mx-auto w-full">
-
         <div class="relative py-3 sm:max-w-xl sm:mx-auto w-full">
             <div class="align-items-center align-items-center z-0" style="height: 100px;">
                 <img src="assets/images/ogrenci_card.png" alt="Hero"
@@ -41,20 +40,28 @@
                                 <!-- TEXT -->
 
                                 <!-- fullName -->
-                                @if (steps[currentStep].field === 'fullName'){
+                                @if (steps[currentStep].field === 'nameStep') {
                                 <div class="position-relative d-flex flex-column align-items-center"
-                                    style="min-height: 70px;">
-                                    <!-- Hata Mesajı (absolute, üstte ortalı) -->
-                                    @if (form.controls['fullName'].invalid && form.controls['fullName'].touched){
+                                    style="min-height: 120px;">
+
+                                    <!-- Hata Mesajı -->
+                                    @if ((form.controls['firstName'].invalid && form.controls['firstName'].touched) ||
+                                    (form.controls['lastName'].invalid && form.controls['lastName'].touched)) {
                                     <div
                                         class="position-absolute top-0 start-50 translate-middle-x text-danger small text-center">
-                                        {{ steps[currentStep].label }} girilmelidir.
-                                    </div>}
-                                    <!-- Input -->
-                                    <input cFormControl formControlName="fullName"
-                                        placeholder="{{ steps[currentStep].label }}" sizing="lg" type="text"
-                                        class="w-100 mt-4" />
-                                </div>}
+                                        {{ steps[currentStep].message }}
+                                    </div>
+                                    }
+
+                                    <!-- Ad Input -->
+                                    <input cFormControl formControlName="firstName" placeholder="Ad" sizing="lg"
+                                        type="text" class="w-100 mt-4" />
+
+                                    <!-- Soyad Input -->
+                                    <input cFormControl formControlName="lastName" placeholder="Soyad" sizing="lg"
+                                        type="text" class="w-100 mt-3" />
+                                </div>
+                                }
 
 
 
@@ -135,16 +142,14 @@
 
                                 <!-- hobbies -->
                                 @if (steps[currentStep].field === 'hobbies'){
-                                <div class="position-relative d-flex align-items-center"
-                                    style="min-height: 70px;">
+                                <div class="position-relative d-flex align-items-center" style="min-height: 70px;">
                                     @if (form.controls['hobbies'].invalid &&
                                     form.controls['hobbies'].touched){
                                     <div
                                         class="position-absolute top-0 start-50 translate-middle-x text-danger small text-center">
                                         {{ steps[currentStep].label }}
                                     </div>}
-                                    <c-form-check *ngFor="let opt of steps[currentStep].options"
-                                        class="w-full mt-4">
+                                    <c-form-check *ngFor="let opt of steps[currentStep].options" class="w-full mt-4">
                                         <input cFormCheckInput id="checkOne" type="checkbox" [value]="opt"
                                             (change)="onMultiSelectChange(steps[currentStep].field, $event)"
                                             [checked]="form.value[steps[currentStep].field]?.includes(opt)" />
@@ -172,185 +177,266 @@
                                 </div>}
 
                                 <!-- quiz1 -->
-                                <div *ngIf="steps[currentStep].field === 'quiz1'">
-                                    <input type="text" formControlName="quiz1"
-                                        placeholder="{{ steps[currentStep].label }}"
-                                        class="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 text-4xl font-bold focus:outline-none focus:border-indigo-500" />
-                                    <label
-                                        class="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">
+                                @if (steps[currentStep].field === 'quiz1') {
+                                <div class="position-relative w-100" style="min-height:70px;">
+                                    @if (form.get('quiz1')?.invalid && form.get('quiz1')?.touched) {
+                                    <div
+                                        class="position-absolute top-0 start-50 translate-middle-x text-danger small text-center">
                                         {{ steps[currentStep].label }}
-                                    </label>
-                                    <div *ngIf="form.controls['quiz1']?.invalid && form.controls['quiz1']?.touched"
-                                        class="text-red-500 text-sm mt-1">
-                                        {{ steps[currentStep].label }} girilmelidir.
+                                    </div>
+                                    }
+                                    <div class="d-flex flex-wrap gap-2 mt-4 ps-2">
+                                        @for (opt of steps[currentStep].options; track $index) {
+                                        @let cid = 'quiz1_' + $index;
+                                        <c-form-check class="d-flex align-items-center gap-2" style="line-height: 1;">
+                                            <input cFormCheckInput type="radio" [id]="cid" name="quiz1"
+                                                [formControlName]="steps[currentStep].field" [value]="opt"
+                                                class="m-0 p-0" />
+                                            <label cFormCheckLabel [for]="cid" class="fs-2 mb-0"
+                                                style="display: flex; align-items: center; height: 100%;">
+                                                {{ opt }}
+                                            </label>
+                                        </c-form-check>
+                                        }
                                     </div>
                                 </div>
+                                }
 
                                 <!-- quiz2 -->
-                                <div *ngIf="steps[currentStep].field === 'quiz2'">
-                                    <input type="text" formControlName="quiz2"
-                                        placeholder="{{ steps[currentStep].label }}"
-                                        class="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 text-4xl font-bold focus:outline-none focus:border-indigo-500" />
-                                    <label
-                                        class="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">
+                                @if (steps[currentStep].field === 'quiz2') {
+                                <div class="position-relative w-100" style="min-height:70px;">
+                                    @if (form.get('quiz2')?.invalid && form.get('quiz2')?.touched) {
+                                    <div
+                                        class="position-absolute top-0 start-50 translate-middle-x text-danger small text-center">
                                         {{ steps[currentStep].label }}
-                                    </label>
-                                    <div *ngIf="form.controls['quiz2']?.invalid && form.controls['quiz2']?.touched"
-                                        class="text-red-500 text-sm mt-1">
-                                        {{ steps[currentStep].label }} girilmelidir.
+                                    </div>
+                                    }
+                                    <div class="d-flex flex-wrap gap-2 mt-4 ps-2">
+                                        @for (opt of steps[currentStep].options; track $index) {
+                                        @let cid = 'quiz2' + $index;
+                                        <c-form-check class="d-flex align-items-center gap-2" style="line-height: 1;">
+                                            <input cFormCheckInput type="radio" [id]="cid" name="quiz2"
+                                                [formControlName]="steps[currentStep].field" [value]="opt"
+                                                class="m-0 p-0" />
+                                            <label cFormCheckLabel [for]="cid" class="fs-2 mb-0"
+                                                style="display: flex; align-items: center; height: 100%;">
+                                                {{ opt }}
+                                            </label>
+                                        </c-form-check>
+                                        }
                                     </div>
                                 </div>
+                                }
+
+                                <!-- Cinsiyet -->
+                                @if (steps[currentStep].field === 'gender') {
+                                <div class="position-relative" style="min-height: 70px;">
+                                        @if (form.get('gender')?.invalid && form.get('gender')?.touched) {
+                                        <div
+                                            class="position-absolute top-0 start-50 translate-middle-x text-danger small text-center">
+                                            Cinsiyet seçimi zorunludur.
+                                        </div>
+                                        }
+                                        <select cFormControl formControlName="gender" sizing="lg" class="w-100 mt-4">
+                                            <option value="0">Belirtilmedi</option>
+                                            <option value="1">Erkek</option>
+                                            <option value="2">Kadın</option>
+                                            <option value="3">Diğer</option>
+                                        </select>
+                                    </div>
+                                    }
+
+                                <!-- Tercih Edilen Dil -->
+                                @if (steps[currentStep].field === 'preferredLanguage') {
+                                <div class="position-relative" style="min-height: 70px;">
+                                        @if (form.get('preferredLanguage')?.invalid &&
+                                        form.get('preferredLanguage')?.touched) {
+                                        <div
+                                            class="position-absolute top-0 start-50 translate-middle-x text-danger small text-center">
+                                            Lütfen bir dil seç.
+                                        </div>
+                                        }
+                                        <select cFormControl formControlName="preferredLanguage" sizing="lg"
+                                            class="w-100 mt-4">
+                                            <option value="0">Belirtilmedi</option>
+                                            <option value="1">Türkçe</option>
+                                            <option value="2">İngilizce</option>
+                                            <option value="3">Almanca</option>
+                                            <option value="4">Fransızca</option>
+                                        </select>
+                                    </div>
+                                    }
+                                <!-- Pozisyon -->
+                                @if (steps[currentStep].field === 'position') {
+                                <div class="position-relative" style="min-height: 70px;">
+                                    @if (form.get('position')?.invalid && form.get('position')?.touched) {
+                                    <div
+                                        class="position-absolute top-0 start-50 translate-middle-x text-danger small text-center">
+                                        Pozisyon seçimi zorunludur.
+                                    </div>
+                                    }
+                                    <select cFormControl formControlName="position" sizing="lg" class="w-100 mt-4">
+                                        <option value="0">Belirtilmedi</option>
+                                        <option value="1">Öğrenci</option>
+                                        <option value="2">Öğretmen</option>
+                                        <option value="3">Admin</option>
+                                        <option value="4">Veli</option>
+                                        <option value="5">Diğer</option>
+                                    </select>
+                                </div>
+                                }
+
 
                                 <!-- branch -->
-                                <div *ngIf="steps[currentStep].field === 'branch'">
-                                    <input type="text" formControlName="branch"
-                                        placeholder="{{ steps[currentStep].label }}"
-                                        class="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 text-4xl font-bold focus:outline-none focus:border-indigo-500" />
-                                    <label
-                                        class="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">
-                                        {{ steps[currentStep].label }}
-                                    </label>
-                                    <div *ngIf="form.controls['branch']?.invalid && form.controls['branch']?.touched"
-                                        class="text-red-500 text-sm mt-1">
+                                @if (steps[currentStep].field === 'branch'){
+                                <div class="position-relative d-flex flex-column align-items-center"
+                                    style="min-height: 70px;">
+                                    <!-- Hata Mesajı (absolute, üstte ortalı) -->
+                                    @if (form.controls['branch'].invalid && form.controls['branch'].touched){
+                                    <div
+                                        class="position-absolute top-0 start-50 translate-middle-x text-danger small text-center">
                                         {{ steps[currentStep].label }} girilmelidir.
-                                    </div>
-                                </div>
+                                    </div>}
+                                    <!-- Input -->
+                                    <input cFormControl formControlName="branch"
+                                        placeholder="{{ steps[currentStep].label }}" sizing="lg" type="text"
+                                        class="w-100 mt-4" />
+                                </div>}
+
 
                                 <!-- classCount -->
-                                <div *ngIf="steps[currentStep].field === 'classCount'">
-                                    <input type="text" formControlName="classCount"
-                                        placeholder="{{ steps[currentStep].label }}"
-                                        class="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 text-4xl font-bold focus:outline-none focus:border-indigo-500" />
-                                    <label
-                                        class="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">
-                                        {{ steps[currentStep].label }}
-                                    </label>
-                                    <div *ngIf="form.controls['classCount']?.invalid && form.controls['classCount']?.touched"
-                                        class="text-red-500 text-sm mt-1">
+                                @if (steps[currentStep].field === 'classCount'){
+                                <div class="position-relative d-flex flex-column align-items-center"
+                                    style="min-height: 70px;">
+                                    <!-- Hata Mesajı (absolute, üstte ortalı) -->
+                                    @if (form.controls['classCount'].invalid && form.controls['classCount'].touched){
+                                    <div
+                                        class="position-absolute top-0 start-50 translate-middle-x text-danger small text-center">
                                         {{ steps[currentStep].label }} girilmelidir.
-                                    </div>
-                                </div>
+                                    </div>}
+                                    <!-- Input -->
+                                    <input cFormControl formControlName="classCount"
+                                        placeholder="{{ steps[currentStep].label }}" sizing="lg" type="text"
+                                        class="w-100 mt-4" />
+                                </div>}
 
                                 <!-- experience -->
-                                <div *ngIf="steps[currentStep].field === 'experience'">
-                                    <input type="text" formControlName="experience"
-                                        placeholder="{{ steps[currentStep].label }}"
-                                        class="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 text-4xl font-bold focus:outline-none focus:border-indigo-500" />
-                                    <label
-                                        class="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">
-                                        {{ steps[currentStep].label }}
-                                    </label>
-                                    <div *ngIf="form.controls['experience']?.invalid && form.controls['experience']?.touched"
-                                        class="text-red-500 text-sm mt-1">
+                                @if (steps[currentStep].field === 'experience'){
+                                <div class="position-relative d-flex flex-column align-items-center"
+                                    style="min-height: 70px;">
+                                    <!-- Hata Mesajı (absolute, üstte ortalı) -->
+                                    @if (form.controls['experience'].invalid && form.controls['experience'].touched){
+                                    <div
+                                        class="position-absolute top-0 start-50 translate-middle-x text-danger small text-center">
                                         {{ steps[currentStep].label }} girilmelidir.
-                                    </div>
-                                </div>
+                                    </div>}
+                                    <!-- Input -->
+                                    <input cFormControl formControlName="experience"
+                                        placeholder="{{ steps[currentStep].label }}" sizing="lg" type="text"
+                                        class="w-100 mt-4" />
+                                </div>}
 
                                 <!-- language -->
-                                <div *ngIf="steps[currentStep].field === 'language'">
-                                    <input type="text" formControlName="language"
-                                        placeholder="{{ steps[currentStep].label }}"
-                                        class="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 text-4xl font-bold focus:outline-none focus:border-indigo-500" />
-                                    <label
-                                        class="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">
-                                        {{ steps[currentStep].label }}
-                                    </label>
-                                    <div *ngIf="form.controls['language']?.invalid && form.controls['language']?.touched"
-                                        class="text-red-500 text-sm mt-1">
+                                @if (steps[currentStep].field === 'language'){
+                                <div class="position-relative d-flex flex-column align-items-center"
+                                    style="min-height: 70px;">
+                                    <!-- Hata Mesajı (absolute, üstte ortalı) -->
+                                    @if (form.controls['language'].invalid && form.controls['language'].touched){
+                                    <div
+                                        class="position-absolute top-0 start-50 translate-middle-x text-danger small text-center">
                                         {{ steps[currentStep].label }} girilmelidir.
-                                    </div>
-                                </div>
+                                    </div>}
+                                    <!-- Input -->
+                                    <input cFormControl formControlName="language"
+                                        placeholder="{{ steps[currentStep].label }}" sizing="lg" type="text"
+                                        class="w-100 mt-4" />
+                                </div>}
 
                                 <!-- childrenCount -->
-                                <div *ngIf="steps[currentStep].field === 'childrenCount'">
-                                    <input type="text" formControlName="childrenCount"
-                                        placeholder="{{ steps[currentStep].label }}"
-                                        class="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 text-4xl font-bold focus:outline-none focus:border-indigo-500" />
-                                    <label
-                                        class="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">
-                                        {{ steps[currentStep].label }}
-                                    </label>
-                                    <div *ngIf="form.controls['childrenCount']?.invalid && form.controls['childrenCount']?.touched"
-                                        class="text-red-500 text-sm mt-1">
+                                @if (steps[currentStep].field === 'childrenCount'){
+                                <div class="position-relative d-flex flex-column align-items-center"
+                                    style="min-height: 70px;">
+                                    <!-- Hata Mesajı (absolute, üstte ortalı) -->
+                                    @if (form.controls['childrenCount'].invalid &&
+                                    form.controls['childrenCount'].touched){
+                                    <div
+                                        class="position-absolute top-0 start-50 translate-middle-x text-danger small text-center">
                                         {{ steps[currentStep].label }} girilmelidir.
-                                    </div>
-                                </div>
+                                    </div>}
+                                    <!-- Input -->
+                                    <input cFormControl formControlName="childrenCount"
+                                        placeholder="{{ steps[currentStep].label }}" sizing="lg" type="text"
+                                        class="w-100 mt-4" />
+                                </div>}
 
                                 <!-- studentNames -->
-                                <div *ngIf="steps[currentStep].field === 'studentNames'">
-                                    <input type="text" formControlName="studentNames"
-                                        placeholder="{{ steps[currentStep].label }}"
-                                        class="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 text-4xl font-bold focus:outline-none focus:border-indigo-500" />
-                                    <label
-                                        class="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">
-                                        {{ steps[currentStep].label }}
-                                    </label>
-                                    <div *ngIf="form.controls['studentNames']?.invalid && form.controls['studentNames']?.touched"
-                                        class="text-red-500 text-sm mt-1">
+                                @if (steps[currentStep].field === 'studentNames'){
+                                <div class="position-relative d-flex flex-column align-items-center"
+                                    style="min-height: 70px;">
+                                    <!-- Hata Mesajı (absolute, üstte ortalı) -->
+                                    @if (form.controls['studentNames'].invalid &&
+                                    form.controls['studentNames'].touched){
+                                    <div
+                                        class="position-absolute top-0 start-50 translate-middle-x text-danger small text-center">
                                         {{ steps[currentStep].label }} girilmelidir.
-                                    </div>
-                                </div>
+                                    </div>}
+                                    <!-- Input -->
+                                    <input cFormControl formControlName="studentNames"
+                                        placeholder="{{ steps[currentStep].label }}" sizing="lg" type="text"
+                                        class="w-100 mt-4" />
+                                </div>}
 
                                 <!-- contactPreference -->
-                                <div *ngIf="steps[currentStep].field === 'contactPreference'">
-                                    <input type="text" formControlName="contactPreference"
-                                        placeholder="{{ steps[currentStep].label }}"
-                                        class="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 text-4xl font-bold focus:outline-none focus:border-indigo-500" />
-                                    <label
-                                        class="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">
-                                        {{ steps[currentStep].label }}
-                                    </label>
-                                    <div *ngIf="form.controls['contactPreference']?.invalid && form.controls['contactPreference']?.touched"
-                                        class="text-red-500 text-sm mt-1">
+                                @if (steps[currentStep].field === 'contactPreference'){
+                                <div class="position-relative d-flex flex-column align-items-center"
+                                    style="min-height: 70px;">
+                                    <!-- Hata Mesajı (absolute, üstte ortalı) -->
+                                    @if (form.controls['contactPreference'].invalid &&
+                                    form.controls['contactPreference'].touched){
+                                    <div
+                                        class="position-absolute top-0 start-50 translate-middle-x text-danger small text-center">
                                         {{ steps[currentStep].label }} girilmelidir.
-                                    </div>
-                                </div>
+                                    </div>}
+                                    <!-- Input -->
+                                    <input cFormControl formControlName="contactPreference"
+                                        placeholder="{{ steps[currentStep].label }}" sizing="lg" type="text"
+                                        class="w-100 mt-4" />
+                                </div>}
 
                                 <!-- email -->
-                                <div *ngIf="steps[currentStep].field === 'email'">
-                                    <input type="text" formControlName="email"
-                                        placeholder="{{ steps[currentStep].label }}"
-                                        class="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 text-4xl font-bold focus:outline-none focus:border-indigo-500" />
-                                    <label
-                                        class="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">
-                                        {{ steps[currentStep].label }}
-                                    </label>
-                                    <div *ngIf="form.controls['email']?.invalid && form.controls['email']?.touched"
-                                        class="text-red-500 text-sm mt-1">
+                                @if (steps[currentStep].field === 'email'){
+                                <div class="position-relative d-flex flex-column align-items-center"
+                                    style="min-height: 70px;">
+                                    <!-- Hata Mesajı (absolute, üstte ortalı) -->
+                                    @if (form.controls['email'].invalid && form.controls['email'].touched){
+                                    <div
+                                        class="position-absolute top-0 start-50 translate-middle-x text-danger small text-center">
                                         {{ steps[currentStep].label }} girilmelidir.
-                                    </div>
-                                </div>
+                                    </div>}
+                                    <!-- Input -->
+                                    <input cFormControl formControlName="email"
+                                        placeholder="{{ steps[currentStep].label }}" sizing="lg" type="text"
+                                        class="w-100 mt-4" />
+                                </div>}
 
                                 <!-- password -->
-                                <div *ngIf="steps[currentStep].field === 'password'">
-                                    <input type="password" formControlName="password"
-                                        placeholder="{{ steps[currentStep].label }}"
-                                        class="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 text-4xl font-bold focus:outline-none focus:border-indigo-500" />
-                                    <label
-                                        class="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">
-                                        {{ steps[currentStep].label }}
-                                    </label>
-                                    <div *ngIf="form.controls['password']?.invalid && form.controls['password']?.touched"
-                                        class="text-red-500 text-sm mt-1">
+                                @if (steps[currentStep].field === 'password') {
+                                <div class="position-relative d-flex flex-column align-items-center"
+                                    style="min-height: 70px;">
+                                    <!-- Hata Mesajı (absolute, üstte ortalı) -->
+                                    @if (form.controls['password'].invalid && form.controls['password'].touched) {
+                                    <div
+                                        class="position-absolute top-0 start-50 translate-middle-x text-danger small text-center">
                                         {{ steps[currentStep].label }} girilmelidir.
                                     </div>
+                                    }
+                                    <!-- Input -->
+                                    <input cFormControl formControlName="password"
+                                        placeholder="{{ steps[currentStep].label }}" sizing="lg" type="password"
+                                        class="w-100 mt-4" />
                                 </div>
+                                }
 
-                                
-
-                                <!-- QUIZ -->
-                                <div *ngSwitchCase="'quiz'" class="space-y-2">
-                                    <label *ngFor="let opt of steps[currentStep].options"
-                                        class="flex items-center gap-2">
-                                        <input type="radio" [formControlName]="steps[currentStep].field"
-                                            [value]="opt" />
-                                        <span>{{ opt }}</span>
-                                    </label>
-                                    <div *ngIf="form.controls[steps[currentStep].field]?.invalid && form.controls[steps[currentStep].field]?.touched"
-                                        class="text-red-500 text-sm mt-1">
-                                        {{ steps[currentStep].label }} girilmelidir.
-                                    </div>
-                                </div>
                             </ng-container>
                         </div>
                     </ng-container>
@@ -374,9 +460,7 @@
                     </div>
                 </form>
             </div>
-
-
         </div>
-
     </div>
     <lagel></lagel>
+</div>

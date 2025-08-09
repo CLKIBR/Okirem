@@ -6,7 +6,7 @@ export interface UserForRegisterResponse {
   userName: string;
   phoneNumber?: string;
   birthDate?: Date;
-  gender?: string; // GenderType
+  gender?: number; // GenderType
   address?: string;
   nationalId?: string;
   profileImageUrl?: string;
@@ -14,8 +14,8 @@ export interface UserForRegisterResponse {
   isActive?: boolean;
   lastLoginDate?: Date;
   institution?: string;
-  position?: string; // PositionType
-  preferredLanguage?: string; // LanguageType
+  position?: number; // PositionType
+  preferredLanguage?: number; // LanguageType
   bio?: string;
   socialLinks?: string;
   experiencePoints?: number;

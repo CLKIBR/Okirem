@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import {
   ReactiveFormsModule,
   FormBuilder,
@@ -25,6 +25,7 @@ import {
 
 @Component({
   selector: 'app-register-wizard',
+  standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -51,26 +52,79 @@ export class RegisterWizard implements OnInit {
   private authService = inject(AuthService);
   private router = inject(Router);
 
+  private toPosition(role: UserRole): number {
+    switch (role) {
+      case 'teacher':
+        return 1;
+      case 'parent':
+        return 2;
+      default:
+        return 0; // student
+    }
+  }
+
   ngOnInit(): void {
-    const queryRole = this.route.snapshot.queryParamMap.get('role') as UserRole;
-    if (queryRole) this.role = queryRole;
+    const queryRole =
+      (this.route.snapshot.queryParamMap.get('role') as UserRole) ||
+      'student';
+    this.role = queryRole;
 
     this.steps = this.registrationService.getStepsForRole(this.role);
 
-    const group: any = {};
+    const group: Record<string, any> = {};
+
+    // Steps'ten gelen alanları ekle (nameStep bir grup; position step olarak kullanılmayacak)
     for (const step of this.steps) {
+      if (step.field === 'nameStep' || step.field === 'position') continue;
       group[step.field] = step.required ? ['', Validators.required] : [''];
     }
+
+    // nameStep için gerçek kontroller
+    group['firstName'] = ['', Validators.required];
+    group['lastName'] = ['', Validators.required];
+
+    // API zorunlu ek alanlar (step'siz)
+    group['userName'] = ['', Validators.required];
+    group['position'] = [this.toPosition(this.role), Validators.required];
+
+    // Sıkı validasyon (varsa)
+    if (group['email']) {
+      group['email'][1] = [Validators.required, Validators.email];
+    }
+    if (group['password']) {
+      group['password'][1] = [Validators.required, Validators.minLength(6)];
+    }
+
     this.form = this.fb.group(group);
+
+    // E-posta yazıldıkça userName'e otomatik kopya (boşsa)
+    this.form.get('email')?.valueChanges.subscribe((val) => {
+      const currentUserName = this.form.get('userName')?.value;
+      if (!currentUserName && typeof val === 'string') {
+        const local = (val.split('@')[0] || '').trim();
+        if (local)
+          this.form.get('userName')?.setValue(local, { emitEvent: false });
+      }
+    });
   }
 
   nextStep() {
-    const field = this.steps[this.currentStep].field;
-    const control = this.form.get(field);
+    const field = this.steps[this.currentStep]?.field;
 
-    if (control?.invalid) {
-      control.markAsTouched();
-      return;
+    if (field === 'nameStep') {
+      const first = this.form.get('firstName');
+      const last = this.form.get('lastName');
+      if (first?.invalid || last?.invalid) {
+        first?.markAsTouched();
+        last?.markAsTouched();
+        return;
+      }
+    } else {
+      const control = this.form.get(field);
+      if (control?.invalid) {
+        control.markAsTouched();
+        return;
+      }
     }
 
     if (this.currentStep < this.steps.length - 1) {
@@ -82,7 +136,7 @@ export class RegisterWizard implements OnInit {
     if (this.currentStep > 0) {
       this.currentStep--;
     } else {
-      this.router.navigate(['/register/wolcome']);
+      this.router.navigate(['/register/welcome']);
     }
   }
 
@@ -92,34 +146,65 @@ export class RegisterWizard implements OnInit {
 
   submit() {
     if (!this.form.valid) {
-      const field = this.steps[this.currentStep].field;
-      this.form.get(field)?.markAsTouched();
+      const field = this.steps[this.currentStep]?.field;
+      if (field === 'nameStep') {
+        this.form.get('firstName')?.markAsTouched();
+        this.form.get('lastName')?.markAsTouched();
+      } else {
+        this.form.get(field)?.markAsTouched();
+      }
       return;
     }
 
-    // Formdan verileri al
-    const formValue = this.form.value;
-    // UserForRegisterRequest modeline uygun şekilde veriyi hazırla
-    const userForRegisterRequest = {
-      email: formValue.email,
-      password: formValue.password,
-      firstName: formValue.fullName?.split(' ')[0] || '',
-      lastName: formValue.fullName?.split(' ')[1] || '',
-      position: this.role,
-      ...formValue,
-    };
+        const v = this.form.value;
 
-    this.authService.registerApplicant(userForRegisterRequest).subscribe({
-      next: (tokenModel) => {
-        let targetRoute = '/student';
-        if (this.role === 'teacher') targetRoute = '/teacher';
-        else if (this.role === 'parent') targetRoute = '/parent';
-        this.router.navigate([targetRoute]);
-      },
-      error: (err) => {
-        // TODO: kullanıcıya toast ile göster
-      },
-    });
+        // Backend enum değerleri
+        const GenderType = {
+          NotSpecified: 0,
+          Male: 1,
+          Female: 2,
+          Other: 3
+        };
+        const PositionType = {
+          NotSpecified: 0,
+          Student: 1,
+          Teacher: 2,
+          Admin: 3,
+          Parent: 4,
+          Other: 5
+        };
+        const LanguageType = {
+          NotSpecified: 0,
+          Turkish: 1,
+          English: 2,
+          German: 3,
+          French: 4
+        };
+
+        // Formdan gelen değerleri enum ile eşleştir
+        const userForRegisterRequest = {
+          email: v.email,
+          password: v.password,
+          firstName: v.firstName || '',
+          lastName: v.lastName || '',
+          gender: Object.values(GenderType).includes(v.gender) ? v.gender : GenderType.NotSpecified,
+          position: Object.values(PositionType).includes(v.position) ? v.position : PositionType.NotSpecified,
+          preferredLanguage: Object.values(LanguageType).includes(v.preferredLanguage) ? v.preferredLanguage : LanguageType.NotSpecified,
+        };
+
+        console.log('Kayıt için gönderilen değerler:', userForRegisterRequest);
+
+        this.authService.register(userForRegisterRequest).subscribe({
+          next: () => {
+            let targetRoute = '/student';
+            if (this.role === 'teacher') targetRoute = '/teacher';
+            else if (this.role === 'parent') targetRoute = '/parent';
+            this.router.navigate([targetRoute]);
+          },
+          error: () => {
+            // TODO: toast/snackbar
+          },
+        });
   }
 
   onMultiSelectChange(field: string, event: Event): void {
@@ -127,9 +212,7 @@ export class RegisterWizard implements OnInit {
     const selected = this.form.value[field] || [];
 
     if (input.checked) {
-      this.form.patchValue({
-        [field]: [...selected, input.value],
-      });
+      this.form.patchValue({ [field]: [...selected, input.value] });
     } else {
       this.form.patchValue({
         [field]: selected.filter((v: string) => v !== input.value),

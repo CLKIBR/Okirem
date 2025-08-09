@@ -30,5 +30,4 @@ export interface ApplicantForRegisterRequest {
   totalLoginCount?: number;
   isEmailVerified?: boolean;
   isPhoneVerified?: boolean;
-  userName: string;
 }

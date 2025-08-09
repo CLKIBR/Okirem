@@ -11,7 +11,7 @@ import { environment } from "../../../../environments/environment";
     providedIn: 'root'
   })
   export class UserService extends UserBaseService {
-    private readonly apiUrl:string = `${environment.API_URL}/users`
+    private readonly apiUrl:string = `${environment.API_URL}/Users`
     
     constructor(private httpClient:HttpClient) {super() }
 

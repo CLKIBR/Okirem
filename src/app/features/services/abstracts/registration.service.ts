@@ -5,7 +5,7 @@ export type UserRole = 'student' | 'teacher' | 'parent';
 export interface WizardStep {
   label: string;
   field: string;
-  type: 'text' | 'select' | 'multiselect' | 'quiz';
+  type: 'text' | 'select' | 'multiselect' | 'quiz' | 'group';
   required?: boolean;
   options?: string[];
   message?: string;
@@ -19,7 +19,7 @@ export class RegistrationService {
     switch (role) {
       case 'student':
         return [
-          { label: 'Ad Soyad', field: 'fullName', type: 'text', required: true, message: 'Merhaba! Önce adını ve soyadını yazar mısın?' },
+          { label: 'Ad ve Soyad', field: 'nameStep', type: 'group', required: true, message: 'Merhaba! Önce adını ve soyadını yazar mısın?' },
           { label: 'Okul', field: 'school', type: 'text', required: true, message: 'Hangi okulda okuyorsun? Yaz bakalım.' },
           { label: 'Sınıf', field: 'class', type: 'text', required: true, message: 'Kaçıncı sınıftasın? 😊' },
           { label: 'Okul Numarası', field: 'schoolNumber', type: 'text', message: 'Okul numaranı da ekleyelim mi?' },
@@ -28,9 +28,14 @@ export class RegistrationService {
           { label: 'Büyüyünce Ne Olmak İstiyorsun?', field: 'futureDream', type: 'text', message: 'Hayalindeki meslek nedir? ✨' },
           { label: 'Mini Test: 3 + 5 = ?', field: 'quiz1', type: 'quiz', options: ['6', '7', '8', '9'], message: 'Hadi bakalım! 3 + 5 kaç eder? 🧠' },
           { label: 'Mini Test: Türkiye\'nin başkenti?', field: 'quiz2', type: 'quiz', options: ['İstanbul', 'Ankara', 'İzmir', 'Bursa'], message: 'Türkiye\'nin başkenti neresi biliyor musun? 🇹🇷' },
+
+          // Backend zorunlu alanları eklendi:
           { label: 'E-posta Adresi', field: 'email', type: 'text', required: true, message: 'Giriş için e-posta adresini gir lütfen ✉️' },
           { label: 'Şifre Belirle', field: 'password', type: 'text', required: true, message: 'Bir şifre oluştur. En az 6 karakter olsun 🔐' },
+          { label: 'Cinsiyet', field: 'gender', type: 'select', options: ['Erkek', 'Kadın', 'Diğer'], required: true, message: 'Cinsiyetini seç lütfen ⚧️' },
+          { label: 'Tercih Edilen Dil', field: 'preferredLanguage', type: 'select', options: ['Türkçe', 'İngilizce', 'Almanca'], required: true, message: 'Kullanmak istediğin dili seç 🌐' }
         ];
+
 
       case 'teacher':
         return [

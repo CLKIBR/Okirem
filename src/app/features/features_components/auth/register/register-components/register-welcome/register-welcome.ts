@@ -1,16 +1,17 @@
 import { Component, inject } from '@angular/core';
 import { IconModule } from '@coreui/icons-angular';
 import {
+  ButtonCloseDirective,
   ColComponent,
   ContainerComponent,
   RowComponent,
 } from '@coreui/angular';
 import { Lagel } from 'src/app/features/features_components/legal/lagel/lagel';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-register-welcome',
-  imports: [IconModule, ContainerComponent, RowComponent, ColComponent, Lagel],
+  imports: [IconModule, ContainerComponent, RowComponent, ColComponent, Lagel,ButtonCloseDirective,RouterLink],
   templateUrl: './register-welcome.html',
   styleUrl: './register-welcome.scss',
 })

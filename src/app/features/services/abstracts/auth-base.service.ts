@@ -6,6 +6,6 @@ import { TokenModel } from "../../models";
 
 @Injectable()
 export abstract class AuthBaseService {
-    abstract registerApplicant(applicantforRegisterRequest: ApplicantForRegisterRequest)
+    abstract register(applicantforRegisterRequest: ApplicantForRegisterRequest)
         : Observable<TokenModel>
 }
